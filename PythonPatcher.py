@@ -1,9 +1,9 @@
 from pathlib import Path
     # Original Paceholder defines in C++ code
-    #define DEVICE_NAME             "DEVCNAME        "
-    #define WIFI_SSID                   "WIFISSID        "
-    #define WIFI_PASS                   "WIFIPASS                "
-    #define THINGER_USERNAME    "CLOUDNAM        "
+    #define DEVICE_NAME          "DEVCNAME        "
+    #define WIFI_SSID            "WIFISSID        "
+    #define WIFI_PASS            "WIFIPASS                "
+    #define THINGER_USERNAME     "CLOUDNAM        "
     #define DEVICE_CREDENTIALS   "DEVCCRED        "  
      
     # define the same placeholders in Python
