@@ -60,7 +60,7 @@ from pathlib import Path
     #fill data to become exactly the length of the placeholders.
     CUWIFIPASS = CUWIFIPASS.ljust(len(CPWIFIPASS), b"\0")
      
-    content_patched  = content_patched.replace (CPWIFISSID, CUWIFISSID)
+    ccontent_patched  = content_patched.replace (CPWIFIPASS, CUWIFIPASS)
      
      
     #get user DVCNAME
