@@ -6,19 +6,12 @@ from pathlib import Path
 #define THINGER_USERNAME     "CLOUDNAM        "
 #define DEVICE_CREDENTIALS   "DEVCCRED        "  
      
-# define the same placeholders in Python
-Placeholder_DEVCNAME = "DEVCNAME        "
-Placeholder_WIFISSID = "WIFISSID        "
-Placeholder_WIFIPASS = "WIFIPASS                "
-Placeholder_CLOUDNAM = "CLOUDNAM        "
-Placeholder_CLOUDNAM = "DEVCCRED        "  
-     
-# convert these Strings to ascii bytes
-Ascii_DEVCNAME = Placeholder_DEVCNAME.encode("ascii")
-Ascii_WIFISSID = Placeholder_WIFISSID.encode("ascii")
-Ascii_WIFIPASS = Placeholder_WIFIPASS.encode("ascii")
-Ascii_CLOUDNAM = Placeholder_CLOUDNAM.encode("ascii")
-Ascii_CLOUDNAM = Placeholder_CLOUDNAM.encode("ascii")
+# define the same placeholders in Python (as ASCII bytes)
+Placeholder_DEVCNAME = b"DEVCNAME        "
+Placeholder_WIFISSID = b"WIFISSID        "
+Placeholder_WIFIPASS = b"WIFIPASS                "
+Placeholder_CLOUDNAM = b"CLOUDNAM        "
+Placeholder_CLOUDNAM = b"DEVCCRED        "  
      
 #get filename to patch
 infile = input ("Enter binfile to patch:")
@@ -42,9 +35,9 @@ if len(User_WIFISSID) > len(Placeholder_WIFISSID):
 # convert that String to ascii bytes
 User_WIFISSID = User_WIFISSID.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_WIFISSID = User_WIFISSID.ljust(len(Ascii_WIFISSID), b"\0")
+User_WIFISSID = User_WIFISSID.ljust(len(Placeholder_WIFISSID), b"\0")
      
-content_patched  = content_to_patch.replace (Ascii_WIFISSID, User_WIFISSID)
+content_patched  = content_to_patch.replace (Placeholder_WIFISSID, User_WIFISSID)
      
 #get user WIFIPASS
 User_WIFIPASS = input("Enter Password:")
@@ -54,9 +47,9 @@ if len(User_WIFIPASS) > len(Placeholder_WIFIPASS):
 # convert that String to ascii bytes
 User_WIFIPASS = User_WIFIPASS.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_WIFIPASS = User_WIFIPASS.ljust(len(Ascii_WIFIPASS), b"\0")
+User_WIFIPASS = User_WIFIPASS.ljust(len(Placeholder_WIFIPASS), b"\0")
      
-content_patched  = content_patched.replace (Ascii_WIFIPASS, User_WIFIPASS)
+content_patched  = content_patched.replace (Placeholder_WIFIPASS, User_WIFIPASS)
       
 #get user DVCNAME
 User_DEVCNAME = input("Enter Device Name:")
@@ -66,9 +59,9 @@ if len(User_DEVCNAME) > len(Placeholder_DEVCNAME):
 # convert that String to ascii bytes
 User_DEVCNAME = User_DEVCNAME.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_DEVCNAME = User_DEVCNAME.ljust(len(Ascii_DEVCNAME), b"\0")
+User_DEVCNAME = User_DEVCNAME.ljust(len(Placeholder_DEVCNAME), b"\0")
      
-content_patched  = content_patched.replace (Ascii_DEVCNAME, User_DEVCNAME)
+content_patched  = content_patched.replace (Placeholder_DEVCNAME, User_DEVCNAME)
      
 #get user CLOUDNAM
 User_CLOUDNAM = input("Enter Cloud User Name:")
@@ -78,9 +71,9 @@ if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
 # convert that String to ascii bytes
 User_CLOUDNAM = User_CLOUDNAM.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_CLOUDNAM = User_CLOUDNAM.ljust(len(Ascii_CLOUDNAM), b"\0")
+User_CLOUDNAM = User_CLOUDNAM.ljust(len(Placeholder_CLOUDNAM), b"\0")
      
-content_patched  = content_patched.replace (Ascii_CLOUDNAM, User_CLOUDNAM)
+content_patched  = content_patched.replace (Placeholder_CLOUDNAM, User_CLOUDNAM)
      
 #get user DEVCCRED
 User_DEVCCRED = input("Enter Device Credentials:")
@@ -90,18 +83,14 @@ if len(User_DEVCCRED) > len(Placeholder_CLOUDNAM):
 # convert that String to ascii bytes
 User_DEVCCRED = User_DEVCCRED.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_DEVCCRED = User_DEVCCRED.ljust(len(Ascii_CLOUDNAM), b"\0")
+User_DEVCCRED = User_DEVCCRED.ljust(len(Placeholder_CLOUDNAM), b"\0")
      
-content_patched  = content_patched.replace (Ascii_CLOUDNAM, User_DEVCCRED)
+content_patched  = content_patched.replace (Placeholder_CLOUDNAM, User_DEVCCRED)
      
-if len(content_patched)  != len(content_to_patch):
-    raise Exception("Something went wrong, patched file length different")
-else:
+assert len(content_patched)  == len(content_to_patch), "Something went wrong, patched file length different"
 # write back the patched content.
-    f = open(outfile_path, 'wb')
-    f.write(content_patched)
-    f.close()
+f = open(outfile_path, 'wb')
+f.write(content_patched)
+f.close()
      
 print (f"File {outfile} saved")
-
-
