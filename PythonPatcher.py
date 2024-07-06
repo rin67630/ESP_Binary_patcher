@@ -11,7 +11,7 @@ Placeholder_DEVCNAME = b"DEVCNAME        "
 Placeholder_WIFISSID = b"WIFISSID        "
 Placeholder_WIFIPASS = b"WIFIPASS                "
 Placeholder_CLOUDNAM = b"CLOUDNAM        "
-Placeholder_CLOUDNAM = b"DEVCCRED        "  
+Placeholder_DEVCCRED = b"DEVCCRED        "  
      
 #get filename to patch
 infile = input ("Enter binfile to patch:")
@@ -94,5 +94,3 @@ f.write(content_patched)
 f.close()
      
 print (f"File {outfile} saved")
-
-
