@@ -26,6 +26,7 @@ It is a Python script that patches the credentials into your compiled binary.
 It works that way:
 
 In your ESP code, you define placeholders for your credentials and make them long enough to potentially fit any user's content.
+
   `#define DEVICE_NAME             "DEVCNAME        "`   
   `#define WIFI_SSID               "WIFISSID        "`   
   `#define WIFI_PASS               "WIFIPASS                "`   
