@@ -85,7 +85,7 @@ User_DEVCCRED = User_DEVCCRED.encode("ascii")
 #fill data to become exactly the length of the placeholders.
 User_DEVCCRED = User_DEVCCRED.ljust(len(Placeholder_CLOUDNAM), b"\0")
      
-content_patched  = content_patched.replace (Placeholder_CLOUDNAM, User_DEVCCRED)
+content_patched  = content_patched.replace (Placeholder_DEVCCRED, User_DEVCCRED)
      
 assert len(content_patched)  == len(content_to_patch), "Something went wrong, patched file length different"
 # write back the patched content.
