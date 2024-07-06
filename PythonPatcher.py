@@ -7,18 +7,18 @@ from pathlib import Path
 #define DEVICE_CREDENTIALS   "DEVCCRED        "  
      
 # define the same placeholders in Python
-PDEVCNAME = "DEVCNAME        "
-PWIFISSID = "WIFISSID        "
-PWIFIPASS = "WIFIPASS                "
-PCLOUDNAM = "CLOUDNAM        "
-PDEVCCRED = "DEVCCRED        "  
+Placeholder_DEVCNAME = "DEVCNAME        "
+Placeholder_WIFISSID = "WIFISSID        "
+Placeholder_WIFIPASS = "WIFIPASS                "
+Placeholder_CLOUDNAM = "CLOUDNAM        "
+Placeholder_CLOUDNAM = "DEVCCRED        "  
      
 # convert these Strings to ascii bytes
-CPDEVCNAME = PDEVCNAME.encode("ascii")
-CPWIFISSID = PWIFISSID.encode("ascii")
-CPWIFIPASS = PWIFIPASS.encode("ascii")
-CPCLOUDNAM = PCLOUDNAM.encode("ascii")
-CPDEVCCRED = PDEVCCRED.encode("ascii")
+Ascii_DEVCNAME = Placeholder_DEVCNAME.encode("ascii")
+Ascii_WIFISSID = Placeholder_WIFISSID.encode("ascii")
+Ascii_WIFIPASS = Placeholder_WIFIPASS.encode("ascii")
+Ascii_CLOUDNAM = Placeholder_CLOUDNAM.encode("ascii")
+Ascii_CLOUDNAM = Placeholder_CLOUDNAM.encode("ascii")
      
 #get filename to patch
 infile = input ("Enter binfile to patch:")
@@ -35,71 +35,73 @@ content_to_patch = f.read()
 f.close()
      
 #get user WIFISSID
-UWIFISSID = input("Enter SSID:")
-if len(UWIFISSID) > len(PWIFISSID):
+User_WIFISSID = input("Enter SSID:")
+if len(User_WIFISSID) > len(Placeholder_WIFISSID):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
-CUWIFISSID = UWIFISSID.encode("ascii")
+User_WIFISSID = User_WIFISSID.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-CUWIFISSID = CUWIFISSID.ljust(len(CPWIFISSID), b"\0")
+User_WIFISSID = User_WIFISSID.ljust(len(Ascii_WIFISSID), b"\0")
      
-content_patched  = content_to_patch.replace (CPWIFISSID, CUWIFISSID)
+content_patched  = content_to_patch.replace (Ascii_WIFISSID, User_WIFISSID)
      
 #get user WIFIPASS
-UWIFIPASS = input("Enter Password:")
-if len(UWIFIPASS) > len(PWIFIPASS):
+User_WIFIPASS = input("Enter Password:")
+if len(User_WIFIPASS) > len(Placeholder_WIFIPASS):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
-CUWIFIPASS = UWIFIPASS.encode("ascii")
+User_WIFIPASS = User_WIFIPASS.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-CUWIFIPASS = CUWIFIPASS.ljust(len(CPWIFIPASS), b"\0")
+User_WIFIPASS = User_WIFIPASS.ljust(len(Ascii_WIFIPASS), b"\0")
      
-content_patched  = content_patched.replace (CPWIFIPASS, CUWIFIPASS)
+content_patched  = content_patched.replace (Ascii_WIFIPASS, User_WIFIPASS)
       
 #get user DVCNAME
-UDEVCNAME = input("Enter Device Name:")
-if len(UDEVCNAME) > len(PDEVCNAME):
+User_DEVCNAME = input("Enter Device Name:")
+if len(User_DEVCNAME) > len(Placeholder_DEVCNAME):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
-CUDEVCNAME = UDEVCNAME.encode("ascii")
+User_DEVCNAME = User_DEVCNAME.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-CUDEVCNAME = CUDEVCNAME.ljust(len(CPDEVCNAME), b"\0")
+User_DEVCNAME = User_DEVCNAME.ljust(len(Ascii_DEVCNAME), b"\0")
      
-content_patched  = content_patched.replace (CPDEVCNAME, CUDEVCNAME)
+content_patched  = content_patched.replace (Ascii_DEVCNAME, User_DEVCNAME)
      
 #get user CLOUDNAM
-UCLOUDNAM = input("Enter Cloud User Name:")
-if len(UCLOUDNAM) > len(PCLOUDNAM):
+User_CLOUDNAM = input("Enter Cloud User Name:")
+if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
-CUCLOUDNAM = UCLOUDNAM.encode("ascii")
+User_CLOUDNAM = User_CLOUDNAM.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-CUCLOUDNAM = CUCLOUDNAM.ljust(len(CPCLOUDNAM), b"\0")
+User_CLOUDNAM = User_CLOUDNAM.ljust(len(Ascii_CLOUDNAM), b"\0")
      
-content_patched  = content_patched.replace (CPCLOUDNAM, CUCLOUDNAM)
+content_patched  = content_patched.replace (Ascii_CLOUDNAM, User_CLOUDNAM)
      
 #get user DEVCCRED
-UDEVCCRED = input("Enter Device Credentials:")
-if len(UDEVCCRED) > len(PDEVCCRED):
+User_DEVCCRED = input("Enter Device Credentials:")
+if len(User_DEVCCRED) > len(Placeholder_CLOUDNAM):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
-CUDEVCCRED = UDEVCCRED.encode("ascii")
+User_DEVCCRED = User_DEVCCRED.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-CUDEVCCRED = CUDEVCCRED.ljust(len(CPDEVCCRED), b"\0")
+User_DEVCCRED = User_DEVCCRED.ljust(len(Ascii_CLOUDNAM), b"\0")
      
-content_patched  = content_patched.replace (CPDEVCCRED, CUDEVCCRED)
+content_patched  = content_patched.replace (Ascii_CLOUDNAM, User_DEVCCRED)
      
 if len(content_patched)  != len(content_to_patch):
     raise Exception("Something went wrong, patched file length different")
 else:
-   # write back the patched content.
-   f = open(outfile_path, 'wb')
-   f.write(content_patched)
-   f.close()
+# write back the patched content.
+    f = open(outfile_path, 'wb')
+    f.write(content_patched)
+    f.close()
      
 print (f"File {outfile} saved")
+
+
