@@ -6,7 +6,7 @@ from pathlib import Path
 #define THINGER_USERNAME     "CLOUDNAM        "
 #define DEVICE_CREDENTIALS   "DEVCCRED        "  
      
-# define the same placeholders in Python (as ASCII bytes)
+# define the same placeholders in Python
 Placeholder_DEVCNAME = b"DEVCNAME        "
 Placeholder_WIFISSID = b"WIFISSID        "
 Placeholder_WIFIPASS = b"WIFIPASS                "
@@ -77,13 +77,13 @@ content_patched  = content_patched.replace (Placeholder_CLOUDNAM, User_CLOUDNAM)
      
 #get user DEVCCRED
 User_DEVCCRED = input("Enter Device Credentials:")
-if len(User_DEVCCRED) > len(Placeholder_CLOUDNAM):
+if len(User_DEVCCRED) > len(Placeholder_DEVCCRED):
     raise Exception("Input too long")
      
 # convert that String to ascii bytes
 User_DEVCCRED = User_DEVCCRED.encode("ascii")
 #fill data to become exactly the length of the placeholders.
-User_DEVCCRED = User_DEVCCRED.ljust(len(Placeholder_CLOUDNAM), b"\0")
+User_DEVCCRED = User_DEVCCRED.ljust(len(Placeholder_DEVCCRED), b"\0")
      
 content_patched  = content_patched.replace (Placeholder_DEVCCRED, User_DEVCCRED)
      
@@ -94,3 +94,5 @@ f.write(content_patched)
 f.close()
      
 print (f"File {outfile} saved")
+
+
