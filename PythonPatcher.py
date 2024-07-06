@@ -38,8 +38,6 @@ f.close()
 UWIFISSID = input("Enter SSID:")
 if len(UWIFISSID) > len(PWIFISSID):
     raise Exception("Input too long")
-elif not UWIFISSID.isascii():
-    raise Exception("Unicode not supported")
      
 # convert that String to ascii bytes
 CUWIFISSID = UWIFISSID.encode("ascii")
@@ -52,8 +50,6 @@ content_patched  = content_to_patch.replace (CPWIFISSID, CUWIFISSID)
 UWIFIPASS = input("Enter Password:")
 if len(UWIFIPASS) > len(PWIFIPASS):
     raise Exception("Input too long")
-elif not UWIFIPASS.isascii():
-    raise Exception("Unicode not supported")
      
 # convert that String to ascii bytes
 CUWIFIPASS = UWIFIPASS.encode("ascii")
@@ -61,14 +57,11 @@ CUWIFIPASS = UWIFIPASS.encode("ascii")
 CUWIFIPASS = CUWIFIPASS.ljust(len(CPWIFIPASS), b"\0")
      
 content_patched  = content_patched.replace (CPWIFIPASS, CUWIFIPASS)
-     
-     
+      
 #get user DVCNAME
 UDEVCNAME = input("Enter Device Name:")
 if len(UDEVCNAME) > len(PDEVCNAME):
     raise Exception("Input too long")
-elif not UDEVCNAME.isascii():
-    raise Exception("Unicode not supported")
      
 # convert that String to ascii bytes
 CUDEVCNAME = UDEVCNAME.encode("ascii")
@@ -81,8 +74,6 @@ content_patched  = content_patched.replace (CPDEVCNAME, CUDEVCNAME)
 UCLOUDNAM = input("Enter Cloud User Name:")
 if len(UCLOUDNAM) > len(PCLOUDNAM):
     raise Exception("Input too long")
-elif not UCLOUDNAM.isascii():
-    raise Exception("Unicode not supported")
      
 # convert that String to ascii bytes
 CUCLOUDNAM = UCLOUDNAM.encode("ascii")
@@ -95,8 +86,6 @@ content_patched  = content_patched.replace (CPCLOUDNAM, CUCLOUDNAM)
 UDEVCCRED = input("Enter Device Credentials:")
 if len(UDEVCCRED) > len(PDEVCCRED):
     raise Exception("Input too long")
-elif not UDEVCCRED.isascii():
-    raise Exception("Unicode not supported")
      
 # convert that String to ascii bytes
 CUDEVCCRED = UDEVCCRED.encode("ascii")
@@ -104,7 +93,6 @@ CUDEVCCRED = UDEVCCRED.encode("ascii")
 CUDEVCCRED = CUDEVCCRED.ljust(len(CPDEVCCRED), b"\0")
      
 content_patched  = content_patched.replace (CPDEVCCRED, CUDEVCCRED)
-     
      
 if len(content_patched)  != len(content_to_patch):
     raise Exception("Something went wrong, patched file length different")
