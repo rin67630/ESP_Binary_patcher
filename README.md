@@ -26,13 +26,13 @@ It is a Python script that patches the credentials into your compiled binary.
 It works that way:
 
 In your ESP code, you define placeholders for your credentials and make them long enough to potentially fit any user's content.
-'''
+`
   #define DEVICE_NAME             "DEVCNAME        "   
   #define WIFI_SSID               "WIFISSID        "   
   #define WIFI_PASS               "WIFIPASS                "  
   #define THINGER_USERNAME        "CLOUDNAM        "  
   #define DEVICE_CREDENTIALS      "DEVCCRED        "  
-'''
+`
 These placeholders MUST match exactly those defined in the provided PythonPatcher.py Python script.  
 Then you compile your code and distribute the raw binary together with the PythonPatcher.py script provided.
 The user places the two files on his desktop and runs the PythonPatcher.py.
