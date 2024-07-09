@@ -27,7 +27,7 @@ for cnt, fileName in enumerate(fileList, 1):
     print(f"[%d] %s\n\r" % (cnt, fileName))
 #Chosing the one you want to patch
 choice = int(input("Select .bin file[1-%s]: " % cnt))
-infile = (fileList[choice])
+infile = (fileList[choice]) - 1
 print (f"working on {infile}, let's begin to patch !")
 #Preparing the output filename
 outfile = infile.replace(".bin", "_patched.bin")
