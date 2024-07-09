@@ -20,11 +20,14 @@ Placeholder_CLOUDNAM = b"CLOUDNAM        "
 Placeholder_DEVCCRED = b"DEVCCRED        "
 
 #Listing potential files to patch in current directory
+print()
+print (" please select a file from: ")
 items = os.listdir()
 fileList = [name for name in items if name.endswith(".bin")]
-
+    
 for cnt, fileName in enumerate(fileList, 1):
-    print(f"[%d] %s\n\r" % (cnt, fileName))
+    print(f"[{cnt}] {fileName}")
+
 #Chosing the one you want to patch
 choice = int(input("Select .bin file[1-%s]: " % cnt))
 infile = (fileList[choice]) - 1
