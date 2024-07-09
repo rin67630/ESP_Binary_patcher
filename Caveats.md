@@ -7,7 +7,10 @@ The patchar can conveniently directly flash the patched file, but ***only if you
 
 # ESP devices Programmers  
 This is a very low footprint solution for ESP devices, practically no code is required, just use placeholder #defines for your credentials.  
-You must take care to use the credentials only at one single place of your code. If you need them at several places, copy them to a String-variables.  
+It includes 3 credentials for a cloud solution. 
+If you dont't need a cloud solution, you are probably better off with Espressif's SmartConfig.
+
+You must take care to use the credentials only at one single place of your code. If you need them at several places, copy them to String-variables.  
 In my example, the placeholders are 16 chars long, the placeholder for WiFI password is 24 chars long. That should be enough for most standard usages.  
 You might use longer strings in your code and match them in the PythonPacher accordingly.  
 You might also add more user parameters, just take example on one parameter and copy / adjust accordingly.  
