@@ -104,5 +104,5 @@ answer = input("Flashing it now to the ESP device on the first valid serial port
 if answer.upper() in ["Y", "YES"]:
     subprocess.run([sys.executable ,  "esptool.py",  "write_flash",  "-z", " 0x0000",  outfile ])
     print (" Enjoy your ESP device on-line ! ")
-else if answer.upper() in ["N", "NO"]:
+elif answer.upper() in ["N", "NO"]:
     print (" Enjoy your patched file !") 
