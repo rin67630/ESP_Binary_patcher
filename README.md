@@ -39,7 +39,13 @@ The script will ask for the file to patch, and the credentials and patch the bin
 
 %Run PythonPatcher.py
 
-    Enter binfile to patch:PythonTest.bin  
+    Welcome to PythonPatcher for ESP devices 
+    from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher 
+
+    Please select a file from: 
+    [1] ESP_SwissArmyKnife_Rev06_2024.bin
+    Select .bin file[1-1]: 1
+    working on ESP_SwissArmyKnife_Rev06_2024.bin, let's begin to patch !
     Enter SSID:GW-****  
     Enter Password:*******  
     Enter Device Name:Steroids  
