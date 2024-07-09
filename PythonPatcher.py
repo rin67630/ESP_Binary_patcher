@@ -30,6 +30,7 @@ for cnt, fileName in enumerate(fileList, 1):
 
 #Chosing the one you want to patch
 choice = int(input("Select .bin file[1-%s]: " % cnt))
+assert "_patched" not in fileList[choice -1], "Cannot work on already patched files"
 infile = (fileList[choice -1])
 print (f"working on {infile}, let's begin to patch !")
 #Preparing the output filename
