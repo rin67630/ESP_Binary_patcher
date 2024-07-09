@@ -1,6 +1,7 @@
 from pathlib import Path
 import subprocess
 import sys
+import os
 
 print (" Welcome to PythonPatcher for ESP devices ")
 print (" from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher ")
@@ -18,22 +19,29 @@ Placeholder_WIFIPASS = b"WIFIPASS                "
 Placeholder_CLOUDNAM = b"CLOUDNAM        "
 Placeholder_DEVCCRED = b"DEVCCRED        "
 
-#get filename to patch
-infile = input ("Enter binary file ###.bin to process:")
-if not infile.endswith(".bin"):
-    raise Exception("Filename must end with .bin")
-else:
-    outfile = infile.replace(".bin", "_patched.bin")
-    infile_path  = Path.home().joinpath("Desktop", infile)
-    outfile_path = Path.home().joinpath("Desktop", outfile)
+#Listing potential files to patch in current directory
+items = os.listdir()
+fileList = [name for name in items if name.endswith(".bin")]
 
-# read file
+for cnt, fileName in enumerate(fileList, 1):
+    print(f"[%d] %s\n\r" % (cnt, fileName))
+#Chosing the one you want to patch
+choice = int(input("Select .bin file[1-%s]: " % cnt))
+infile = (fileList[choice])
+print (f"working on {infile}, let's begin to patch !")
+#Preparing the output filename
+outfile = infile.replace(".bin", "_patched.bin")
+
+infile_path  = Path.home().joinpath("Desktop", infile)
+outfile_path = Path.home().joinpath("Desktop", outfile)
+
+# Read the file to patch
 f= open(infile_path, 'rb')
 content_to_patch = f.read()
 f.close()
      
 #get user WIFISSID
-User_WIFISSID = input("Enter SSID:")
+User_WIFISSID = input("Enter SSID:") or Placeholder_WIFISSID
 if len(User_WIFISSID) > len(Placeholder_WIFISSID):
     raise Exception("Input too long")
      
