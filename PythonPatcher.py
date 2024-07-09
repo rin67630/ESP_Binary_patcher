@@ -1,5 +1,10 @@
 from pathlib import Path
-# Original Paceholder defines in C++ code
+import subprocess
+import sys
+
+print (" Welcome to PythonPatcher for ESP devices ")
+print (" from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher ")
+# These original Paceholders must be defined defined in your C++ code
 #define DEVICE_NAME          "DEVCNAME        "
 #define WIFI_SSID            "WIFISSID        "
 #define WIFI_PASS            "WIFIPASS                "
@@ -11,17 +16,17 @@ Placeholder_DEVCNAME = b"DEVCNAME        "
 Placeholder_WIFISSID = b"WIFISSID        "
 Placeholder_WIFIPASS = b"WIFIPASS                "
 Placeholder_CLOUDNAM = b"CLOUDNAM        "
-Placeholder_DEVCCRED = b"DEVCCRED        "  
-     
+Placeholder_DEVCCRED = b"DEVCCRED        "
+
 #get filename to patch
-infile = input ("Enter binfile to patch:")
+infile = input ("Enter binary file ###.bin to process:")
 if not infile.endswith(".bin"):
     raise Exception("Filename must end with .bin")
 else:
     outfile = infile.replace(".bin", "_patched.bin")
     infile_path  = Path.home().joinpath("Desktop", infile)
     outfile_path = Path.home().joinpath("Desktop", outfile)
-     
+
 # read file
 f= open(infile_path, 'rb')
 content_to_patch = f.read()
@@ -62,7 +67,7 @@ User_DEVCNAME = User_DEVCNAME.encode("ascii")
 User_DEVCNAME = User_DEVCNAME.ljust(len(Placeholder_DEVCNAME), b"\0")
      
 content_patched  = content_patched.replace (Placeholder_DEVCNAME, User_DEVCNAME)
-     
+
 #get user CLOUDNAM
 User_CLOUDNAM = input("Enter Cloud User Name:")
 if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
@@ -93,4 +98,11 @@ f = open(outfile_path, 'wb')
 f.write(content_patched)
 f.close()
      
-print (f"File {outfile} saved")
+print (f"Patched binary {outfile} saved")
+
+answer = input("Flashing it now to the ESP device on the first valid serial port?")
+if answer.upper() in ["Y", "YES"]:
+    subprocess.run([sys.executable ,  "esptool.py",  "write_flash",  "-z", " 0x0000",  outfile ])
+    print (" Enjoy your ESP device on-line ! ")
+else if answer.upper() in ["N", "NO"]:
+    print (" Enjoy your patched file !") 
