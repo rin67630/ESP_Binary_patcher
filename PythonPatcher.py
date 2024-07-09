@@ -23,14 +23,14 @@ Placeholder_DEVCCRED = b"DEVCCRED        "
 print()
 print (" please select a file from: ")
 items = os.listdir()
-fileList = [name for name in items if name.endswith(".bin")]
+fileList = [name for name in items if (name.endswith(".bin") and not "_patched" in name) ]
     
 for cnt, fileName in enumerate(fileList, 1):
     print(f"[{cnt}] {fileName}")
 
 #Chosing the one you want to patch
 choice = int(input("Select .bin file[1-%s]: " % cnt))
-assert "_patched" not in fileList[choice -1], "Cannot work on already patched files"
+# assert "_patched" not in fileList[choice -1], "Cannot work on already patched files"
 infile = (fileList[choice -1])
 print (f"working on {infile}, let's begin to patch !")
 #Preparing the output filename
