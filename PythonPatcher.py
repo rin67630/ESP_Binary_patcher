@@ -43,8 +43,11 @@ outfile_path = Path.home().joinpath("Desktop", outfile)
 f= open(infile_path, 'rb')
 content_to_patch = f.read()
 f.close()
+
+#Verify that our file contains at least the first placeholder
+assert b"WIFISSID        " in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
      
-#get user WIFISSID
+#Get user WIFISSID
 User_WIFISSID = input("Enter SSID:") or Placeholder_WIFISSID
 if len(User_WIFISSID) > len(Placeholder_WIFISSID):
     raise Exception("Input too long")
