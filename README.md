@@ -4,13 +4,14 @@ Patch user's credentials into ESP binaries
 Following problem was to solve:  
 Distributing an ESP32 or ESP8266 solution without requiring the user to compile a version with his own credentials.  
 
-I don't want use the usual way of a temporary website to enter the credentials.  
-That is a very clumsy solution requiring a lot of code and ESP program space (all the HTML code must be in program space)  
+I don't want to use the usual way of a temporary website to enter the credentials.  
+That is a very clumsy solution requiring a lot of ESP-code and ESP program space (frequently more than the regular application, all the HTML code must be in program space)  
+You need to stor the results into the NVRAM, and retrieve it on next boot, plus make the difference of both runtimes. The effort may be hiden in a librarry, but I know none, which includes the additional credentials of a cloud service.
 Even for the user it is not straight forward...
 
-SmartConfig is a nice solution, but only provides SSID and Password, you need additionally credentials for a cloud usage. 
+SmartConfig is a nice solution, but only provides SSID and Password, additionally credentials for a cloud service are missing too. 
 
-At least: 
+A modern solution with a cloud service (MQTT, Thingspeak, Thinger.io etc...) require at least: 
 * SSID, 
 * WiFiPassword, 
 * Device Name, 
@@ -19,7 +20,7 @@ At least:
 
 (the rest of the options and parameters can then be gathered from the cloud)
 
-The solution is quite simple, elegant and requires practically no additional ESP code, no library and nothing to install on the user's side.
+The solution is quite simple, elegant and requires practically no additional ESP code, no library and almost nothing to install on the user's side.
 (excepted Python, which he needs anyway to upload the binary).
 
 It is a Python script that patches the credentials into your compiled binary.
