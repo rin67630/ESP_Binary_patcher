@@ -22,8 +22,7 @@ Placeholder_DEVCCRED = b"DEVCCRED        "
 #Listing potential files to patch in current directory
 print()
 print ("Please select a file from: ")
-items = os.listdir()
-fileList = [name for name in items if (name.endswith(".bin") and not "_patched" in name) ]
+fileList = [name for name in os.listdir() if (name.endswith(".bin") and not "_patched" in name) ]
     
 for cnt, fileName in enumerate(fileList, 1):
     print(f"[{cnt}] {fileName}")
