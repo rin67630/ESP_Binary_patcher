@@ -1,10 +1,10 @@
-from pathlib import Path
 import subprocess
 import sys
 import os
 
-print (" Welcome to PythonPatcher for ESP devices ")
-print (" from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher ")
+print ("Welcome to PythonPatcher for ESP devices ")
+print ("from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher")
+
 # These original Paceholders must be defined defined in your C++ code
 #define DEVICE_NAME          "DEVCNAME        "
 #define WIFI_SSID            "WIFISSID        "
@@ -21,7 +21,7 @@ Placeholder_DEVCCRED = b"DEVCCRED        "
 
 #Listing potential files to patch in current directory
 print()
-print (" please select a file from: ")
+print ("Please select a file from: ")
 items = os.listdir()
 fileList = [name for name in items if (name.endswith(".bin") and not "_patched" in name) ]
     
@@ -30,25 +30,24 @@ for cnt, fileName in enumerate(fileList, 1):
 
 #Chosing the one you want to patch
 choice = int(input("Select .bin file[1-%s]: " % cnt))
-# assert "_patched" not in fileList[choice -1], "Cannot work on already patched files"
-infile = (fileList[choice -1])
+
+assert "patched" not in fileList[choice -1], "Cannot work on already patched files"
+infile = fileList[choice -1]
+
 print (f"working on {infile}, let's begin to patch !")
 #Preparing the output filename
 outfile = infile.replace(".bin", "_patched.bin")
 
-infile_path  = Path.home().joinpath("Desktop", infile)
-outfile_path = Path.home().joinpath("Desktop", outfile)
-
-# Read the file to patch
-f= open(infile_path, 'rb')
+f= open(infile, 'rb')
 content_to_patch = f.read()
 f.close()
 
-#Verify that our file contains at least the first placeholder
+#assert b"WIFISSID        " in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
 assert Placeholder_WIFISSID in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
-     
-#Get user WIFISSID
-User_WIFISSID = input("Enter SSID:") or Placeholder_WIFISSID
+
+
+#get user WIFISSID
+User_WIFISSID = input("Enter SSID:") 
 if len(User_WIFISSID) > len(Placeholder_WIFISSID):
     raise Exception("Input too long")
      
@@ -109,7 +108,7 @@ content_patched  = content_patched.replace (Placeholder_DEVCCRED, User_DEVCCRED)
      
 assert len(content_patched)  == len(content_to_patch), "Something went wrong, patched file length different"
 # write back the patched content.
-f = open(outfile_path, 'wb')
+f = open(outfile , 'wb')
 f.write(content_patched)
 f.close()
      
