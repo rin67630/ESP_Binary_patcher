@@ -54,7 +54,7 @@ The script will ask for the file to patch, and the credentials and patch the bin
     Enter Device Credentials:*******  
     File PythonTest_patched.bin saved  
 
-Then you upload the patched file to the ESP with esptool.py and you are online at your WiFI and in the cloud altogether !  
+THen it uploads the patched file to the ESP and you are online at your WiFI and in the cloud altogether !  
 Could you imagine it easier?  
 
 Enjoy!
