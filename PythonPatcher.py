@@ -23,7 +23,6 @@ Placeholder_DEVCCRED = b"DEVCCRED        "
 print()
 print ("Please select a file from: ")
 fileList = [name for name in os.listdir() if (name.endswith(".bin") and not "_patched" in name) ]
-    
 for cnt, fileName in enumerate(fileList, 1):
     print(f"[{cnt}] {fileName}")
 
@@ -117,5 +116,10 @@ answer = input("Flashing it now to the ESP device on the first valid serial port
 if answer.upper() in ["Y", "YES"]:
     subprocess.run([sys.executable ,  "esptool.py",  "write_flash",  "-z", " 0x0000",  outfile ])
     print (" Enjoy your ESP device on-line ! ")
-elif answer.upper() in ["N", "NO"]:
-    print (" Enjoy your patched file !") 
+    
+answer = input("Reflash the ESP Over The Air (OTA, needs device IP")
+if answer.upper() in ["Y", "YES"]:
+    IP = input("Enter IP of the device to flash [nnn.nnn.nnn.nnn]") 
+    subprocess.run([sys.executable ,  "espota.py",  "-i", IP , "-f", outfile ])
+    print ("Enjoy your reflashed ESP device ! ")
+    
