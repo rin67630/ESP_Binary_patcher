@@ -54,7 +54,12 @@ The script will ask for the file to patch, and the credentials and patch the bin
     Enter Device Credentials:*******  
     File PythonTest_patched.bin saved  
 
-THen it uploads the patched file to the ESP and you are online at your WiFI and in the cloud altogether !  
+Then it uploads the patched file to the ESP and you are online at your WiFI and in the cloud altogether !  
 Could you imagine it easier?  
+
+The PythonPatcher is currently delivered in two versions:
+
+The cloud-service-agnostic __PythonPatcher.py__
+And an extended version __PythonPatcherTE.py__, specialized to be used with the cloud service https://thinger.io, wich can additionally personalize dashboard configuration files. 
 
 Enjoy!
