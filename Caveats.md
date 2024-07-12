@@ -4,6 +4,7 @@ This solution is not suitable to distribute an ESP device including code like on
 On Windows systems you will need to get the Python interpreter for free at the Windows Store if it is not yet installed  
 On current macOS systems Python3 is installed.  
 The patchar can conveniently directly flash the patched file, but ***only if you have one ESP device connected to serial***. If you have several devices connected at the same time, you may ruin an innocent device!  
+Once the initial flash is done and the device contains an OTA listener, updates can be flashed wirelessly (OTA)
 
 # ESP devices Programmers  
 This is a very low footprint solution for ESP devices, practically no code is required, just use placeholder #defines for your credentials.  
