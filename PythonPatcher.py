@@ -40,9 +40,7 @@ f= open(infile, 'rb')
 content_to_patch = f.read()
 f.close()
 
-#assert b"WIFISSID        " in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
 assert Placeholder_WIFISSID in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
-
 
 #get user WIFISSID
 User_WIFISSID = input("Enter SSID:") 
