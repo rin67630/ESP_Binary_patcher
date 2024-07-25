@@ -39,13 +39,14 @@ In your ESP code, you define exactly these placeholders for your user data.
   `#define THINGER_USERNAME        "CLOUDNAM        "`    
   `#define DEVICE_CREDENTIALS      "DEVCCRED        "`   
   `#define TZ_OFF   = "TZ_OFF  "`       
-  `#define DST_OFF  = "DST_OFF "`
-  `#define LONGITUD = "LONGTD  "`
-  `#define LATITUDE = "LATITD  "`
-  `int   tz_off  = int(TZ_OFF);`
-  `int   dst_off = int(DST_OFF);`
-  `float longtd  = float(LONGTD);`
-  `float latitd  = float(LATITD);`
+  `#define DST_OFF  = "DST_OFF "`  
+  `#define LONGITUD = "LONGTD  "`  
+  `#define LATITUDE = "LATITD  "`  
+  `int   tz_off  = int(TZ_OFF);`  
+  `int   dst_off = int(DST_OFF);`  
+  `float longtd  = float(LONGTD);`  
+  `float latitd  = float(LATITD);`  
+
 Then you compile your code and distribute the raw binaries together with the PythonPatcher.py script provided.
 The user places the distributed files e.g. on his desktop (or another folder) and runs the PythonPatcher.py.
 The script will ask for the file to patch, and the credentials and patch the binary accordingly, saving the patched file on the destop too:
