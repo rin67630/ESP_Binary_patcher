@@ -62,7 +62,8 @@ f = open(infile, 'rb')
 content_to_patch = f.read()
 f.close()
 
-assert Placeholder_WIFISSID in content_to_patch, "That binary does not appear to contain the mandatory placeholders !"
+if not Placeholder_WIFISSID in content_to_patch: 
+    raise Exception("That binary does not appear to contain the mandatory placeholders !")
 
 # get user WIFISSID
 User_WIFISSID = input("Enter SSID:") or Default_WIFISSID
@@ -147,21 +148,25 @@ answer = input(f"Patch the ESP device with these values?(y), or manually enter v
 if answer.upper() in ["N", "NO"]:
     gmtoff = input("Please enter GMT offset in seconds ahead, or behind (-) Greenwich:") or gmtoff
     testval = int(gmtoff)
-    assert -43200 <= testval <= 43200, "GMT offset must be in range -43200...43200"
+    if not -43200 <= testval <= 43200:
+        raise Exception("GMT offset must be in range -43200...43200")
 
     dstoff = input("Please enter Daylight Saving offset in seconds ahead, or behind (-) Greenwich: ") or dstoff
     testval = int(dstoff)
-    assert -43200 <= testval <= 43200, "Daylight Saving offset must be in range -43200...43200"
+    if not -43200 <= testval <= 43200:
+        raise Exception("Daylight Saving offset must be in range -43200...43200")
 
     latitude = input("Please enter the device's latitude (-180...180): ") or latitude
     latitude = latitude[0:7]
     testval = float(latitude)
-    assert -180 <= testval <= 180, "latitude must be in range -180...180"
+    if not -180 <= testval <= 180:
+        raise Exception("latitude must be in range -180...180")
 
     longitude = input("Please enter the device's longitude (-90...90: ") or longitude
     longitude = longitude[0:7]
     testval = float(longitude)
-    assert -90 <= testval <= 90, "longitude must be in range -90...90"
+    if not -90 <= testval <= 90:
+        raise Exception("longitude must be in range -90...90")
 
 # Patch the Geo Information to your device
 gmtoff = gmtoff.encode("ascii")
@@ -182,7 +187,8 @@ User_LONGITUD = longitude.ljust(len(Placeholder_LONGITUD), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
 
 # Verify that the patched file has kept its length
-assert len(content_patched) == len(content_to_patch), "Something went wrong, patched file length different"
+if not len(content_patched) == len(content_to_patch):
+        raise Exception("Something went wrong, patched file length different")
 
 # write back the patched content.
 f = open(outfile, 'wb')
@@ -205,6 +211,7 @@ if answer.upper() in ["Y", "YES"]:
     IP = input("Enter IP of the device to flash [nnn.nnn.nnn.nnn]")
     subprocess.run([sys.executable, "espota.py", "-i", IP, "-f", outfile])
     print("Enjoy your re-flashed ESP device ! ")
+
 
 # *** APPENDIXES (COMMENTS ONLY) ***
 # -------------------------------------------------------------------------------------------------
