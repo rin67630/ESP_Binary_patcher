@@ -4,14 +4,16 @@ Patch user's credentials into ESP binaries
 Following problem was to solve:  
 Distributing an ESP32 or ESP8266 solution to tinker-flash ESP devices without requiring the user to compile a version with his own credentials.  
 This is a solution for developers of ESP-solutions that need more than only the Wi-Fi credentials.
-This is not a solution for commercial devices distributed with a generic firmware that will be initialised by the customer without flashing)
+This is not a solution for commercial devices distributed with a generic firmware that will be initialised by the customer without flashing).  
+  
 A modern solution with a cloud service (MQTT, Thingspeak, Thinger.io etc...) require at least: 
 * SSID, 
 * WiFiPassword, 
 * Device Name, 
 * Cloud Account, 
-* Device Credentials
-and for time and location aware devices:
+* Device Credentials  
+
+and for time and location aware devices:  
 * Time Zone parameters
 * Latitude/Longitude
 
