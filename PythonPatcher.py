@@ -1,15 +1,15 @@
 # -------------------------------------------------------------------------------------------------
 # *** USER-EDITABLE DEFAULTS (values when the user enters nothing) ***
 # Define the user Defaults in Python
-Default_DEVCNAME = "MyDevice"
-Default_WIFISSID = "MySSID"
-Default_WIFIPASS = "MyPassword"
-Default_CLOUDNAM = "MyCloudUser"
-Default_DEVCCRED = "MyDeviceCred"
+Default_DEVCNAME = "Witty"
+Default_WIFISSID = "GW-FM-7390"
+Default_WIFIPASS = "3tr67333"
+Default_CLOUDNAM = "spThinger5"
+Default_DEVCCRED = "4r8ht?$&ss!RtY4a"
 gmtoff = "3600"        # Offset to GMT in secs
 dstoff = "7200"        # Summer Offset in secs
-longitude = "06.0557"  # Longitude
-latitude = "49.7685"   # Latitude
+longitude = "07.0572"  # Longitude
+latitude = "48.7356"   # Latitude
 
 # -------------------------------------------------------------------------------------------------
 # *** ESP DEVICE PROGRAMMING TEMPLATE  *** # (mandatory C++ code template, # cf. appendix, end of file)
@@ -21,10 +21,10 @@ import sys
 import os
 import time
 import getpass
-import geocoder
 
+import geocoder   # pip3 ipmport geocoder
 print("Welcome to PythonPatcher for ESP devices ")
-print("from RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher")
+print("From RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher")
 # define the same placeholders in Python
 Placeholder_DEVCNAME = b"DEVCNAME        "  # Device Name & Host.   (exactly 16 chars incl spaces)
 Placeholder_WIFISSID = b"WIFISSID        "  # WiFi SSID.            (exactly 16 chars incl spaces)
@@ -48,13 +48,13 @@ choice = int(input(f"Select .bin file[1-{cnt}]: "))
 infile = fileList[choice - 1]
 
 if "_update" in infile or "_patched" in infile:  # flash directly without patching
-    print(f"working on {infile}, let's update to OTA !")
-    IP = input("Enter IP of the device to update [nnn.nnn.nnn.nnn]")
+    print(f"Working on {infile}, let's update to OTA !")
+    IP = input("Please enter IP of the device to update [nnn.nnn.nnn.nnn]")
     subprocess.run([sys.executable, "espota.py", "-i", IP, "-f", infile])
     print("Enjoy your updated ESP device ! ")
     exit()
 
-print(f"working on {infile}, let's begin to patch !")
+print(f"Working on {infile}, let's begin to patch !")
 # Preparing the output filename
 outfile = infile.replace(".bin", "_patched.bin")
 
@@ -76,8 +76,8 @@ User_WIFISSID = User_WIFISSID.ljust(len(Placeholder_WIFISSID), b"\0")
 content_patched = content_to_patch.replace(Placeholder_WIFISSID, User_WIFISSID)
 
 # get user WIFIPASS
-User_WIFIPASS = getpass.getpass(prompt='Enter Password:')  # variant hiding the password
-# User_WIFIPASS = input('Enter Password:') or Default_WIFIPASS
+User_WIFIPASS = getpass.getpass(prompt='Please enter Password:')  # variant hiding the password
+# User_WIFIPASS = input('Please enter Password:') or Default_WIFIPASS
 if len(User_WIFIPASS) > len(Placeholder_WIFIPASS):
     raise Exception("Input too long")
 
@@ -88,7 +88,7 @@ User_WIFIPASS = User_WIFIPASS.ljust(len(Placeholder_WIFIPASS), b"\0")
 content_patched = content_patched.replace(Placeholder_WIFIPASS, User_WIFIPASS)
 
 # get user DVCNAME
-User_DEVCNAME = input("Enter Device Name:") or Default_DEVCNAME
+User_DEVCNAME = input("Please enter Device Name:") or Default_DEVCNAME
 if len(User_DEVCNAME) > len(Placeholder_DEVCNAME):
     raise Exception("Input too long")
 
@@ -99,7 +99,7 @@ User_DEVCNAME = User_DEVCNAME.ljust(len(Placeholder_DEVCNAME), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCNAME, User_DEVCNAME)
 
 # get user CLOUDNAM
-User_CLOUDNAM = input("Enter Cloud User Name:") or Default_CLOUDNAM
+User_CLOUDNAM = input("Please enter Cloud User Name:") or Default_CLOUDNAM
 if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
     raise Exception("Input too long")
 
@@ -110,7 +110,7 @@ User_CLOUDNAM = User_CLOUDNAM.ljust(len(Placeholder_CLOUDNAM), b"\0")
 content_patched = content_patched.replace(Placeholder_CLOUDNAM, User_CLOUDNAM)
 
 # get user DEVCCRED
-User_DEVCCRED = input("Enter Device Credentials:") or Default_DEVCCRED
+User_DEVCCRED = input("Please enter Device Credentials:") or Default_DEVCCRED
 if len(User_DEVCCRED) > len(Placeholder_DEVCCRED):
     raise Exception("Input too long")
 
@@ -131,8 +131,8 @@ else:
 
 # Obtain the Geo Information from your IP
 ip = geocoder.ip("me")
-print(f"Your IP appears to be: {ip.ip}")
-print(f"Accordingly you appear to be in: {ip.city}")
+print(f"\nYour IP appears to be: {ip.ip}")
+print(f"Accordingly, you appear to be in: {ip.city}")
 # print(f"Which timezone is: {ip.timezone}")
 print(f"Time zone offset is:  {gmtoff} seconds ahead of Greenwich")
 print(f"Daylight saving offset is:  {dstoff} seconds ahead of Greenwich")
@@ -145,12 +145,11 @@ answer = input(f"Patch the ESP device with these values?(y), or manually enter v
 
 # Get manual values?
 if answer.upper() in ["N", "NO"]:
-    gmtoff = input("Enter GMT offset in seconds ahead, or behind (-) Greenwich:") or gmtoff
+    gmtoff = input("Please enter GMT offset in seconds ahead, or behind (-) Greenwich:") or gmtoff
     testval = int(gmtoff)
-    print(testval)
     assert -43200 <= testval <= 43200, "GMT offset must be in range -43200...43200"
 
-    dstoff = input("Enter Daylight Saving offset in seconds ahead, or behind (-) Greenwich: ") or dstoff
+    dstoff = input("Please enter Daylight Saving offset in seconds ahead, or behind (-) Greenwich: ") or dstoff
     testval = int(dstoff)
     assert -43200 <= testval <= 43200, "Daylight Saving offset must be in range -43200...43200"
 
