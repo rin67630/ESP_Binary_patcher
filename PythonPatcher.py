@@ -1,11 +1,11 @@
 # -------------------------------------------------------------------------------------------------
 # *** USER-EDITABLE DEFAULTS (values when the user enters nothing) ***
 # Define the user Defaults in Python
-Default_DEVCNAME = "Witty"
-Default_WIFISSID = "GW-FM-7390"
-Default_WIFIPASS = "3tr67333"
-Default_CLOUDNAM = "spThinger5"
-Default_DEVCCRED = "4r8ht?$&ss!RtY4a"
+Default_DEVCNAME = "MyDEVICENAME"
+Default_WIFISSID = "MySSID"
+Default_WIFIPASS = "MyPASSWD"
+Default_CLOUDNAM = "MyCLOUDNAME"
+Default_DEVCCRED = "MyDEVICECRED"
 gmtoff = "3600"        # Offset to GMT in secs
 dstoff = "7200"        # Summer Offset in secs
 longitude = "07.0572"  # Longitude
