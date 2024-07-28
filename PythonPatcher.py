@@ -7,9 +7,9 @@ Default_WIFIPASS = "MyPASSWD"
 Default_CLOUDNAM = "MyCLOUDNAME"
 Default_DEVCCRED = "MyDEVICECRED"
 gmtoff = "3600"        # Offset to GMT in secs
-dstoff = "7200"        # Summer Offset in secs
+dstoff = "3600"        # Summer Offset in secs
 longitude = "07.0572"  # Longitude
-latitude = "48.7356"   # Latitude
+latitude  = "48.7356"   # Latitude
 
 # -------------------------------------------------------------------------------------------------
 # *** ESP DEVICE PROGRAMMING TEMPLATE  *** # (mandatory C++ code template, # cf. appendix, end of file)
@@ -136,7 +136,7 @@ print(f"\nYour IP appears to be: {ip.ip}")
 print(f"Accordingly, you appear to be in: {ip.city}")
 # print(f"Which timezone is: {ip.timezone}")
 print(f"Time zone offset is:  {gmtoff} seconds ahead of Greenwich")
-print(f"Daylight saving offset is:  {dstoff} seconds ahead of Greenwich")
+print(f"Daylight saving is:  {dstoff} seconds")
 latitude = str(ip.latlng[0])
 longitude = str(ip.latlng[1])
 print(f"Your latitude is: {latitude}")
