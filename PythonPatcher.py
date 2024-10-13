@@ -1,15 +1,15 @@
 # -------------------------------------------------------------------------------------------------
 # *** USER-EDITABLE DEFAULTS (values when the user enters nothing) ***
 # Define the user Defaults in Python
-Default_DEVCNAME = "MyDEVICENAME"
-Default_WIFISSID = "MySSID"
-Default_WIFIPASS = "MyPASSWD"
-Default_CLOUDNAM = "MyCLOUDNAME"
-Default_DEVCCRED = "MyDEVICECRED"
+Default_DEVCNAME = "Patched"
+Default_WIFISSID = "GW-FM-7390"
+Default_WIFIPASS = "3tr67333"
+Default_CLOUDNAM = "spThinger5"
+Default_DEVCCRED = "4r8ht?$&ss!RtY4a"
 gmtoff = "3600"        # Offset to GMT in secs
-dstoff = "3600"        # Summer Offset in secs
+dstoff = "7200"        # Summer Offset in secs
 longitude = "07.0572"  # Longitude
-latitude  = "48.7356"   # Latitude
+latitude = "48.7356"   # Latitude
 
 # -------------------------------------------------------------------------------------------------
 # *** ESP DEVICE PROGRAMMING TEMPLATE  *** # (mandatory C++ code template, # cf. appendix, end of file)
@@ -22,7 +22,7 @@ import os
 import time
 import getpass
 
-import geocoder   # pip3 ipmport geocoder
+import geocoder   # pip3 import geocoder
 print("Welcome to PythonPatcher for ESP devices ")
 print("From RIN67630 @ https://github.com/rin67630/ESP_Binary_patcher")
 # define the same placeholders in Python
@@ -47,22 +47,34 @@ for cnt, fileName in enumerate(fileList, 1):
 choice = int(input(f"Select .bin file[1-{cnt}]: "))
 infile = fileList[choice - 1]
 
-if "_update" in infile or "_patched" in infile:  # flash directly without patching
-    print(f"Working on {infile}, let's update to OTA !")
-    IP = input("Please enter IP of the device to update [nnn.nnn.nnn.nnn]")
-    subprocess.run([sys.executable, "espota.py", "-i", IP, "-f", infile])
-    print("Enjoy your updated ESP device ! ")
+f = open(infile, 'rb')
+content_to_patch = f.read()
+f.close()
+
+if not Placeholder_WIFISSID in content_to_patch or not Placeholder_WIFIPASS in content_to_patch :  # flash directly without patching
+    print(f"Working on {infile}, without patching !")
+
+    answer = input("Flashing as it is to the ESP device on the first valid serial port? ")
+    if answer.upper() in ["Y", "YES"]:
+        subprocess.run([sys.executable, "esptool.py", "write_flash", "-z", " 0x0000", infile])
+        print("You many want to note your device's MAC address from the upload protocol")
+        print("Enjoy your ESP device on-line ! ")
+        exit()
+
+    answer = input("Flash the ESP Over The Air? (must have Arduino-OTA)")
+    if answer.upper() in ["Y", "YES"]:
+        IP = input("Enter IP of the device to flash [nnn.nnn.nnn.nnn]")
+        subprocess.run([sys.executable, "espota.py", "-i", IP, "-f", outfile])
+        print("Enjoy your re-flashed ESP device ! ")
+        exit()
     exit()
 
 print(f"Working on {infile}, let's begin to patch !")
 # Preparing the output filename
 outfile = infile.replace(".bin", "_patched.bin")
 
-f = open(infile, 'rb')
-content_to_patch = f.read()
-f.close()
 
-if not Placeholder_WIFISSID in content_to_patch: 
+if not Placeholder_WIFISSID in content_to_patch:
     raise Exception("That binary does not appear to contain the mandatory placeholders !")
 
 # get user WIFISSID
@@ -123,12 +135,8 @@ content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
 
 # Obtain the Parameters for the ESP NTC library
 tm = time.localtime()
-if tm.tm_isdst == 1:
-    gmtoff = str(tm.tm_gmtoff - 3600)
-    dstoff = str(tm.tm_gmtoff)
-else:
-    gmtoff = str(tm.tm_gmtoff)
-    dstoff = str(tm.tm_gmtoff + 3600)
+gmtoff = str(tm.tm_gmtoff)
+dstoff = str(tm.tm_isdst * 3600)
 
 # Obtain the Geo Information from your IP
 ip = geocoder.ip("me")
@@ -136,7 +144,7 @@ print(f"\nYour IP appears to be: {ip.ip}")
 print(f"Accordingly, you appear to be in: {ip.city}")
 # print(f"Which timezone is: {ip.timezone}")
 print(f"Time zone offset is:  {gmtoff} seconds ahead of Greenwich")
-print(f"Daylight saving is:  {dstoff} seconds added in summer")
+print(f"Daylight saving is:  {dstoff} seconds")
 latitude = str(ip.latlng[0])
 longitude = str(ip.latlng[1])
 print(f"Your latitude is: {latitude}")
@@ -211,7 +219,6 @@ if answer.upper() in ["Y", "YES"]:
     IP = input("Enter IP of the device to flash [nnn.nnn.nnn.nnn]")
     subprocess.run([sys.executable, "espota.py", "-i", IP, "-f", outfile])
     print("Enjoy your re-flashed ESP device ! ")
-
 
 # *** APPENDIXES (COMMENTS ONLY) ***
 # -------------------------------------------------------------------------------------------------
