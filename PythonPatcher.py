@@ -114,7 +114,7 @@ User_DEVCNAME = User_DEVCNAME.ljust(len(Placeholder_DEVCNAME), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCNAME, User_DEVCNAME)
 
 # get user CLOUDNAM
-User_CLOUDNAM = input("Please enter Cloud User Name:") or Default_CLOUDNAM
+User_CLOUDNAM = input("Please enter Service name or IP:") or Default_CLOUDNAM
 if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
     raise Exception("Input too long")
 
@@ -125,7 +125,7 @@ User_CLOUDNAM = User_CLOUDNAM.ljust(len(Placeholder_CLOUDNAM), b"\0")
 content_patched = content_patched.replace(Placeholder_CLOUDNAM, User_CLOUDNAM)
 
 # get user DEVCUSER
-User_DEVCUSER = input("Please enter Device Credentials:") or Default_DEVCUSER
+User_DEVCUSER = input("Please enter User Name:") or Default_DEVCUSER
 if len(User_DEVCUSER) > len(Placeholder_DEVCUSER):
     raise Exception("Input too long")
 
@@ -134,7 +134,6 @@ User_DEVCUSER = User_DEVCCRED.encode("ascii")
 # fill data to become exactly the length of the placeholders.
 User_DEVCUSER = User_DEVCUSER.ljust(len(Placeholder_DEVCUSER), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCUSER)
-
 
 # get user DEVCCRED
 User_DEVCCRED = input("Please enter Device Credentials:") or Default_DEVCCRED
