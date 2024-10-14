@@ -9,7 +9,8 @@ This is not a solution for commercial devices distributed with a generic firmwar
 A modern solution with a cloud service (MQTT, Thingspeak, Thinger.io etc...) require at least: 
 * SSID, 
 * WiFiPassword, 
-* Device Name, 
+* Device Name,
+* Service Provider,
 * Cloud Account, 
 * Device Credentials  
 
@@ -31,21 +32,22 @@ The solution is quite simple, elegant and requires practically no additional ESP
 It is a Python script that patches the credentials into your compiled binary.
 It works that way:
 
-In your ESP code, you define exactly these placeholders for your user data.
+In your ESP code, you define **exactly** these placeholders for your user data.
 
-  `#define DEVICE_NAME             "DEVCNAME        "`   
-  `#define WIFI_SSID               "WIFISSID        "`   
-  `#define WIFI_PASS               "WIFIPASS                "`   
-  `#define THINGER_USERNAME        "CLOUDNAM        "`    
-  `#define DEVICE_CREDENTIALS      "DEVCCRED        "`   
-  `#define TZ_OFF   = "TZ_OFF  "`       
-  `#define DST_OFF  = "DST_OFF "`  
-  `#define LONGITUD = "LONGTD  "`  
-  `#define LATITUDE = "LATITD  "`  
-  `int   tz_off  = int(TZ_OFF);`  
-  `int   dst_off = int(DST_OFF);`  
-  `float longtd  = float(LONGTD);`  
-  `float latitd  = float(LATITD);`  
+#define DEVICE_NAME          "DEVCNAME        "
+#define WIFI_SSID            "WIFISSID        "
+#define WIFI_PASS            "WIFIPASS                "
+#define SERVICE_PROViDER     "CLOUDNAM        "
+#define DEVICE_USER          "DEVCUSER        "
+#define DEVICE_CREDENTIALS   "DEVCCRED        "
+#define TZ_OFF   = "TZ_OFF  "       
+#define DST_OFF  = "DST_OFF "
+#define LONGITUD = "LONGTD  "
+#define LATITUDE = "LATITD  "
+int   tz_off  = int(TZ_OFF);
+int   dst_off = int(DST_OFF);
+float longtd  = float(LONGTD);
+float latitd  = float(LATITD); 
 
 Then you compile your code and distribute the raw binaries together with the PythonPatcher.py script provided.
 The user places the distributed files e.g. on his desktop (or another folder) and runs the PythonPatcher.py.
