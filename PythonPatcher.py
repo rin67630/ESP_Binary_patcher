@@ -5,6 +5,7 @@ Default_DEVCNAME = "Patched"
 Default_WIFISSID = "Your SSID"
 Default_WIFIPASS = "very,very_secret"
 Default_CLOUDNAM = "provider address"
+Default_CLOUDUSR = "user@provider"
 Default_DEVCCRED = "even-more-secret"
 gmtoff = "3600"        # Offset to GMT in secs
 dstoff = "7200"        # Summer Offset in secs
@@ -31,6 +32,7 @@ Placeholder_WIFISSID = b"WIFISSID        "  # WiFi SSID.            (exactly 16 
 Placeholder_WIFIPASS = b"WIFIPASS                "  # WiFi Password.(exactly 24 chars incl spaces)
 Placeholder_CLOUDNAM = b"CLOUDNAM        "  # Cloud Name.           (exactly 16 chars incl spaces)
 Placeholder_DEVCCRED = b"DEVCCRED        "  # Device Credentials    (exactly 16 chars incl spaces)
+Placeholder_DEVCUSER = b"DEVCUSER        "  # Device Credentials    (exactly 16 chars incl spaces)
 Placeholder_TZ_OFF   = b"TZ_OFF  "          # Offset to GMT in secs (exactly  8 chars incl spaces)
 Placeholder_DST_OFF  = b"DST_OFF "          # Summer Offset in secs (exactly  8 chars incl spaces)
 Placeholder_LONGITUD = b"LONGTD  "          # Longitude             (exactly  8 chars incl spaces)
@@ -121,6 +123,18 @@ User_CLOUDNAM = User_CLOUDNAM.encode("ascii")
 # ill data to become exactly the length of the placeholders.
 User_CLOUDNAM = User_CLOUDNAM.ljust(len(Placeholder_CLOUDNAM), b"\0")
 content_patched = content_patched.replace(Placeholder_CLOUDNAM, User_CLOUDNAM)
+
+# get user DEVCUSER
+User_DEVCUSER = input("Please enter Device Credentials:") or Default_DEVCUSER
+if len(User_DEVCUSER) > len(Placeholder_DEVCUSER):
+    raise Exception("Input too long")
+
+# convert that String to ascii bytes
+User_DEVCUSER = User_DEVCCRED.encode("ascii")
+# fill data to become exactly the length of the placeholders.
+User_DEVCUSER = User_DEVCUSER.ljust(len(Placeholder_DEVCUSER), b"\0")
+content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCUSER)
+
 
 # get user DEVCCRED
 User_DEVCCRED = input("Please enter Device Credentials:") or Default_DEVCCRED
@@ -228,7 +242,8 @@ if answer.upper() in ["Y", "YES"]:
 #define DEVICE_NAME          "DEVCNAME        "
 #define WIFI_SSID            "WIFISSID        "
 #define WIFI_PASS            "WIFIPASS                "
-#define THINGER_USERNAME     "CLOUDNAM        "
+#define SERVICE_PROViDER     "CLOUDNAM        "
+#define DEVICE_USER          "DEVCUSER        "
 #define DEVICE_CREDENTIALS   "DEVCCRED        "
 #define TZ_OFF   = "TZ_OFF  "       
 #define DST_OFF  = "DST_OFF "
