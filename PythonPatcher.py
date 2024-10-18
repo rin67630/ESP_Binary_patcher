@@ -32,7 +32,7 @@ Placeholder_WIFISSID = b"WIFISSID        "  # WiFi SSID.            (exactly 16 
 Placeholder_WIFIPASS = b"WIFIPASS                "  # WiFi Password.(exactly 24 chars incl spaces)
 Placeholder_CLOUDNAM = b"CLOUDNAM        "  # Cloud Name.           (exactly 16 chars incl spaces)
 Placeholder_DEVCCRED = b"DEVCCRED        "  # Device Credentials    (exactly 16 chars incl spaces)
-Placeholder_DEVCUSER = b"DEVCUSER        "  # Device Credentials    (exactly 16 chars incl spaces)
+Placeholder_DEVCUSER = b"DEVCUSER        "  # Device User           (exactly 16 chars incl spaces)
 Placeholder_TZ_OFF   = b"TZ_OFF  "          # Offset to GMT in secs (exactly  8 chars incl spaces)
 Placeholder_DST_OFF  = b"DST_OFF "          # Summer Offset in secs (exactly  8 chars incl spaces)
 Placeholder_LONGITUD = b"LONGTD  "          # Longitude             (exactly  8 chars incl spaces)
@@ -75,10 +75,6 @@ print(f"Working on {infile}, let's begin to patch !")
 # Preparing the output filename
 outfile = infile.replace(".bin", "_patched.bin")
 
-
-if not Placeholder_WIFISSID in content_to_patch:
-    raise Exception("That binary does not appear to contain the mandatory placeholders !")
-
 # get user WIFISSID
 User_WIFISSID = input("Enter SSID:") or Default_WIFISSID
 if len(User_WIFISSID) > len(Placeholder_WIFISSID):
@@ -114,7 +110,7 @@ User_DEVCNAME = User_DEVCNAME.ljust(len(Placeholder_DEVCNAME), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCNAME, User_DEVCNAME)
 
 # get user CLOUDNAM
-User_CLOUDNAM = input("Please enter Service name or IP:") or Default_CLOUDNAM
+User_CLOUDNAM = input("Please enter Cloud Service name or IP") or Default_CLOUDNAM
 if len(User_CLOUDNAM) > len(Placeholder_CLOUDNAM):
     raise Exception("Input too long")
 
@@ -125,7 +121,7 @@ User_CLOUDNAM = User_CLOUDNAM.ljust(len(Placeholder_CLOUDNAM), b"\0")
 content_patched = content_patched.replace(Placeholder_CLOUDNAM, User_CLOUDNAM)
 
 # get user DEVCUSER
-User_DEVCUSER = input("Please enter User Name:") or Default_DEVCUSER
+User_DEVCUSER = input("Please enter Device User:") or Default_DEVCUSER
 if len(User_DEVCUSER) > len(Placeholder_DEVCUSER):
     raise Exception("Input too long")
 
@@ -134,6 +130,7 @@ User_DEVCUSER = User_DEVCCRED.encode("ascii")
 # fill data to become exactly the length of the placeholders.
 User_DEVCUSER = User_DEVCUSER.ljust(len(Placeholder_DEVCUSER), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCUSER)
+
 
 # get user DEVCCRED
 User_DEVCCRED = input("Please enter Device Credentials:") or Default_DEVCCRED
@@ -146,66 +143,68 @@ User_DEVCCRED = User_DEVCCRED.encode("ascii")
 User_DEVCCRED = User_DEVCCRED.ljust(len(Placeholder_DEVCCRED), b"\0")
 content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
 
-# Obtain the Parameters for the ESP NTC library
-tm = time.localtime()
-gmtoff = str(tm.tm_gmtoff)
-dstoff = str(tm.tm_isdst * 3600)
 
-# Obtain the Geo Information from your IP
-ip = geocoder.ip("me")
-print(f"\nYour IP appears to be: {ip.ip}")
-print(f"Accordingly, you appear to be in: {ip.city}")
-# print(f"Which timezone is: {ip.timezone}")
-print(f"Time zone offset is:  {gmtoff} seconds ahead of Greenwich")
-print(f"Daylight saving is:  {dstoff} seconds")
-latitude = str(ip.latlng[0])
-longitude = str(ip.latlng[1])
-print(f"Your latitude is: {latitude}")
-print(f"Your longitude is: {longitude}")
-
-answer = input(f"Patch the ESP device with these values?(y), or manually enter values?(n)")
-
-# Get manual values?
-if answer.upper() in ["N", "NO"]:
-    gmtoff = input("Please enter GMT offset in seconds ahead, or behind (-) Greenwich:") or gmtoff
-    testval = int(gmtoff)
-    if not -43200 <= testval <= 43200:
-        raise Exception("GMT offset must be in range -43200...43200")
-
-    dstoff = input("Please enter Daylight Saving offset in seconds ahead, or behind (-) Greenwich: ") or dstoff
-    testval = int(dstoff)
-    if not -43200 <= testval <= 43200:
-        raise Exception("Daylight Saving offset must be in range -43200...43200")
-
-    latitude = input("Please enter the device's latitude (-180...180): ") or latitude
-    latitude = latitude[0:7]
-    testval = float(latitude)
-    if not -180 <= testval <= 180:
-        raise Exception("latitude must be in range -180...180")
-
-    longitude = input("Please enter the device's longitude (-90...90: ") or longitude
-    longitude = longitude[0:7]
-    testval = float(longitude)
-    if not -90 <= testval <= 90:
-        raise Exception("longitude must be in range -90...90")
-
-# Patch the Geo Information to your device
-gmtoff = gmtoff.encode("ascii")
-User_TZ_OFF = gmtoff.ljust(len(Placeholder_TZ_OFF), b"\0")
-content_patched = content_patched.replace(Placeholder_TZ_OFF, User_TZ_OFF)
-
-dstoff = dstoff.encode("ascii")
-User_DST_OFF = dstoff.ljust(len(Placeholder_DST_OFF), b"\0")
-content_patched = content_patched.replace(Placeholder_DST_OFF, User_DST_OFF)
-
-latitude = latitude.encode("ascii")
-User_LATITUDE = latitude.ljust(len(Placeholder_LATITUDE), b"\0")
-content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
-
-longitude = longitude.encode("ascii")
-
-User_LONGITUD = longitude.ljust(len(Placeholder_LONGITUD), b"\0")
-content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
+if User_LATITUDE in content_to_patch :  #process Geo part
+    # Obtain the Parameters for the ESP NTC library
+    tm = time.localtime()
+    gmtoff = str(tm.tm_gmtoff)
+    dstoff = str(tm.tm_isdst * 3600)
+    
+    # Obtain the Geo Information from your IP
+    ip = geocoder.ip("me")
+    print(f"\nYour IP appears to be: {ip.ip}")
+    print(f"Accordingly, you appear to be in: {ip.city}")
+    # print(f"Which timezone is: {ip.timezone}")
+    print(f"Time zone offset is:  {gmtoff} seconds ahead of Greenwich")
+    print(f"Daylight saving is:  {dstoff} seconds")
+    latitude = str(ip.latlng[0])
+    longitude = str(ip.latlng[1])
+    print(f"Your latitude is: {latitude}")
+    print(f"Your longitude is: {longitude}")
+    
+    answer = input(f"Patch the ESP device with these values?(y), or manually enter values?(n)")
+    
+    # Get manual values?
+    if answer.upper() in ["N", "NO"]:
+        gmtoff = input("Please enter GMT offset in seconds ahead, or behind (-) Greenwich:") or gmtoff
+        testval = int(gmtoff)
+        if not -43200 <= testval <= 43200:
+            raise Exception("GMT offset must be in range -43200...43200")
+    
+        dstoff = input("Please enter Daylight Saving offset in seconds ahead, or behind (-) Greenwich: ") or dstoff
+        testval = int(dstoff)
+        if not -43200 <= testval <= 43200:
+            raise Exception("Daylight Saving offset must be in range -43200...43200")
+    
+        latitude = input("Please enter the device's latitude (-180...180): ") or latitude
+        latitude = latitude[0:7]
+        testval = float(latitude)
+        if not -180 <= testval <= 180:
+            raise Exception("latitude must be in range -180...180")
+    
+        longitude = input("Please enter the device's longitude (-90...90: ") or longitude
+        longitude = longitude[0:7]
+        testval = float(longitude)
+        if not -90 <= testval <= 90:
+            raise Exception("longitude must be in range -90...90")
+    
+    # Patch the Geo Information to your device
+    gmtoff = gmtoff.encode("ascii")
+    User_TZ_OFF = gmtoff.ljust(len(Placeholder_TZ_OFF), b"\0")
+    content_patched = content_patched.replace(Placeholder_TZ_OFF, User_TZ_OFF)
+    
+    dstoff = dstoff.encode("ascii")
+    User_DST_OFF = dstoff.ljust(len(Placeholder_DST_OFF), b"\0")
+    content_patched = content_patched.replace(Placeholder_DST_OFF, User_DST_OFF)
+    
+    latitude = latitude.encode("ascii")
+    User_LATITUDE = latitude.ljust(len(Placeholder_LATITUDE), b"\0")
+    content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
+    
+    longitude = longitude.encode("ascii")
+    
+    User_LONGITUD = longitude.ljust(len(Placeholder_LONGITUD), b"\0")
+    content_patched = content_patched.replace(Placeholder_DEVCCRED, User_DEVCCRED)
 
 # Verify that the patched file has kept its length
 if not len(content_patched) == len(content_to_patch):
